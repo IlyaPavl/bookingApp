@@ -118,7 +118,6 @@ class CommonTextField: UITextField {
             self.backgroundColor = UIColor(red: 1, green: 0.8471, blue: 0.8471, alpha: 1.0)
             return text
         }
-        
     }
 
 }

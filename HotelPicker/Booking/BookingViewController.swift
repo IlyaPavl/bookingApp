@@ -324,16 +324,19 @@ final class BookingViewController: UIViewController {
         view.addSubview(buttonBackgroundView)
         
         button.addAction {
-            if self.phoneField.text?.isEmpty ?? true || self.emailField.text?.isEmpty ?? true {
-                self.phoneField.backgroundColor = UIColor(red: 1, green: 0.8471, blue: 0.8471, alpha: 1.0)
-                self.emailField.backgroundColor = UIColor(red: 1, green: 0.8471, blue: 0.8471, alpha: 1.0)
+            let fields = [self.phoneField, self.emailField, self.nameTouristField, self.surnameTouristField, self.dateOfBirthField, self.countryField, self.passportNumberField, self.passportDateField]
+
+            if fields.contains(where: { $0.text?.isEmpty ?? true }) {
+                fields.forEach { $0.backgroundColor = UIColor(red: 1, green: 0.8471, blue: 0.8471, alpha: 1.0) }
             } else {
-                self.phoneField.backgroundColor = UIColor(red: 0.9647, green: 0.9647, blue: 0.9765, alpha: 1.0)
+                fields.forEach { $0.backgroundColor = UIColor(red: 0.9647, green: 0.9647, blue: 0.9765, alpha: 1.0) }
+                
                 let confirmVC = ConfirmationViewController()
                 confirmVC.title = "Заказ оплачен"
                 self.navigationController?.pushViewController(confirmVC, animated: true)
             }
         }
+
         buttonBackgroundView.addSubview(button)
     }
     
@@ -348,6 +351,8 @@ final class BookingViewController: UIViewController {
             self.setupLayout()
         }
     }
+    
+    
     
     // MARK: - Вычисление высоты white контейнеров
     private func calculateWhiteBackHotelInfoHeight() -> CGFloat {
@@ -553,6 +558,7 @@ extension BookingViewController {
         let toPayInfoSize = toPayInfo.sizeThatFits(CGSize(width: 132, height: CGFloat.greatestFiniteMagnitude))
         toPayInfo.frame = CGRect(x: whiteBackMoneyInfo.frame.minX + paddingForCost, y: serviceInfo.frame.maxY + 16, width: 132, height: toPayInfoSize.height)
         whiteBackMoneyInfo.frame = CGRect(x: 0, y: isDataInfoCollapsed ? whiteBackDataInfo.frame.maxY + 8 : whiteBackDataInfo.frame.maxY + 8, width: scrollView.frame.width, height: calculateWhiteBackMoneyInfoHeight())
+        hideShowButton.setImage(isDataInfoCollapsed ? UIImage(systemName: "chevron.down") : UIImage(systemName: "chevron.up"), for: .normal)
         
         buttonBackgroundView.frame = CGRect(x: 0, y: view.frame.maxY - 88, width: view.frame.width, height: 88)
         button.frame = CGRect(x: 0, y: 0, width: 343, height: 48)
