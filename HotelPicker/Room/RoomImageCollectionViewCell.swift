@@ -37,33 +37,18 @@ class RoomImageCollectionViewCell: UICollectionViewCell {
     }
 
     func loadImages(from urls: [String]) {
-        guard !urls.isEmpty else {
-            activityIndicator.stopAnimating()
-            return
-        }
+        activityIndicator.startAnimating()
 
-        var loadedImages = [UIImage?]()
-
-        for url in urls {
-            if let imageUrl = URL(string: url) {
+        for urlString in urls {
+            if let imageUrl = URL(string: urlString) {
                 URLSession.shared.dataTask(with: imageUrl) { [weak self] data, _, _ in
                     if let data = data, let image = UIImage(data: data) {
-                        loadedImages.append(image)
-                    } else {
-                        loadedImages.append(nil)
-                    }
-
-                    if loadedImages.count == urls.count {
                         DispatchQueue.main.async {
-                            if let firstLoadedImage = loadedImages.first {
-                                self?.imageView.image = firstLoadedImage
-                            }
+                            self?.imageView.image = image
                             self?.activityIndicator.stopAnimating()
                         }
                     }
                 }.resume()
-            } else {
-                loadedImages.append(nil)
             }
         }
     }

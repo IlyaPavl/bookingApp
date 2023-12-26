@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RoomViewController: UITableViewController, RoomTableViewCellDelegate {
+final class RoomViewController: UITableViewController, RoomTableViewCellDelegate {
     
     func didSelectRoom() {
         let bookVC = BookingViewController()
@@ -57,7 +57,7 @@ class RoomViewController: UITableViewController, RoomTableViewCellDelegate {
 
         if let room = viewModel.roomModel?.rooms[indexPath.section] {
             
-            cell.configureCell(imageUrls: room.imageUrls, roomName: room.name, tagCloud: room.peculiarities, minPrice: String(room.price), priceDescription: room.pricePer)
+            cell.configureCell(imageUrls: room.imageUrls, roomName: room.name, tagCloud: room.peculiarities, minPrice: String(room.price.formattedWithSeparator()), priceDescription: room.pricePer)
             cell.room = viewModel.roomModel?.rooms ?? []
         }
         

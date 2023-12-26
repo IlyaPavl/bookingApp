@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ConfirmationViewController: UIViewController {
+final class ConfirmationViewController: UIViewController {
+    
+    private var orderNumber = Int.random(in: 0...1000000)
     
     private let roundView = UIView()
     private let emojiLabel = UILabel()
@@ -69,7 +71,7 @@ class ConfirmationViewController: UIViewController {
         descriptionLabel.textColor = UIColor(red: 0.51, green: 0.529, blue: 0.588, alpha: 1)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 1.01
-        let attributedString = NSMutableAttributedString(string: "Подтверждение заказа №104893 может занять некоторое время (от 1 часа до суток). Как только мы получим ответ от туроператора, вам на почту придет уведомление.")
+        let attributedString = NSMutableAttributedString(string: "Подтверждение заказа №\(orderNumber) может занять некоторое время (от 1 часа до суток). Как только мы получим ответ от туроператора, вам на почту придет уведомление.")
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
         descriptionLabel.attributedText = attributedString
         descriptionLabel.textAlignment = .center

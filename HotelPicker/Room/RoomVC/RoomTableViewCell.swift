@@ -81,7 +81,7 @@ class RoomTableViewCell: UITableViewCell {
     
     func configureCell(imageUrls: [String], roomName: String, tagCloud: [String], minPrice: String, priceDescription: String) {
     
-        configureCollectionView(with: imageUrls)
+        configureCollectionView(with: [imageUrls])
         self.roomNameLabel.text = roomName
         self.tagCloudView.tags = tagCloud
         self.minPriceLabel.text = ("\(minPrice) ₽")
@@ -158,7 +158,7 @@ class RoomTableViewCell: UITableViewCell {
 
     }
     
-    private func configureCollectionView(with urls: [String]) {
+    private func configureCollectionView(with urls: [[String]]) {
         pageControl.numberOfPages = urls.count
         pageControl.currentPage = 0
         collectionView.reloadData()

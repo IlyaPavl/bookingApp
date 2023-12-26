@@ -57,7 +57,7 @@ class NetworkManager: NetworkServiceProtocol {
     }
     
     func fetchBookingData(completion: @escaping (Result<BookingModel, Error>) -> Void) {
-        guard let url = URL(string: APIUrl.roomURL) else {
+        guard let url = URL(string: APIUrl.bookingURL) else {
             completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
             return
         }

@@ -28,6 +28,14 @@ final class HotelViewController: UIViewController {
     private let advantage = AdvantageTableVC()
     private let whiteBackgroundBottom = UIView()
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .gray
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+
+    
     private let buttonBackgroundView = UIView()
     private let button = CustomButton(text: "К выбору номера")
     
@@ -185,6 +193,11 @@ final class HotelViewController: UIViewController {
         buttonBackgroundView.backgroundColor = .white
         view.addSubview(buttonBackgroundView)
         
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.center = view.center
+
+        
         button.addAction { [weak self] in
             guard let self = self else { return }
             let roomViewController = RoomViewController()
@@ -207,15 +220,16 @@ final class HotelViewController: UIViewController {
         let tagCloudViewMaxY = tagCloudView.frame.maxY
         let aboutHotelDescriptionLabelMaxY = aboutHotelDescriptionLabel.frame.height
         let advantageTableMaxY = advantage.view.frame.height
-        let backgroundBottomHeight = aboutHotelLabelMaxY + tagCloudViewMaxY + aboutHotelDescriptionLabelMaxY + advantageTableMaxY + 16
         
-        return backgroundBottomHeight
+        return aboutHotelLabelMaxY + tagCloudViewMaxY + aboutHotelDescriptionLabelMaxY + advantageTableMaxY + 16
     }
 
 }
 
 extension HotelViewController: HotelViewModelDelegate {
+    
     func hotelDataDidUpdate() {
+
         if let urls = viewModel.hotelModel?.imageUrls {
             configureCollectionView(with: urls)
         }
@@ -246,6 +260,7 @@ extension HotelViewController: HotelViewModelDelegate {
         }
         self.view.setNeedsLayout()
         self.view.layoutIfNeeded()
+
     }
 }
 

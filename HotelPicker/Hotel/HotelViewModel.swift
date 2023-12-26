@@ -7,7 +7,6 @@
 
 import Foundation
 
-// Протокол для делегирования событий ViewModel
 protocol HotelViewModelDelegate: AnyObject {
     func hotelDataDidUpdate()
 }
@@ -16,7 +15,6 @@ protocol HotelViewModelDelegate: AnyObject {
 class HotelViewModel {
     private let networkManager = NetworkManager.shared
     
-    // Свойство для делегата, который будет уведомлен о событиях ViewModel
     weak var delegate: HotelViewModelDelegate?
 
     private(set) var hotelModel: HotelModel? {
@@ -25,7 +23,6 @@ class HotelViewModel {
         }
     }
     
-    // Метод для получения данных из сети и обновления модели
     func fetchHotelData() {
         networkManager.fetchHotelData { [weak self] result in
             switch result {
