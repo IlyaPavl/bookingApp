@@ -23,7 +23,6 @@ class AdvantageTableVC: UITableViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 52, bottom: 0, right: 15)
         tableView.backgroundColor = UIColor(red: 0.984, green: 0.984, blue: 0.988, alpha: 1)
         tableView.isScrollEnabled = false
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -36,14 +35,11 @@ class AdvantageTableVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: AdvantageTableViewCell.identifier, for: indexPath) as! AdvantageTableViewCell
-        
         cell.configureCell(imageName: imageName[indexPath.row], title: text[indexPath.row])
-
         return cell
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
-
 }

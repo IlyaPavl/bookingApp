@@ -7,7 +7,6 @@
 
 import Foundation
 
-// Протокол для делегирования событий ViewModel
 protocol RoomViewModelDelegate: AnyObject {
     func roomDataDidUpdate()
 }
@@ -15,17 +14,14 @@ protocol RoomViewModelDelegate: AnyObject {
 class RoomViewModel {
     private let networkManager = NetworkManager.shared
     
-    // Свойство для делегата, который будет уведомлен о событиях ViewModel
     weak var delegate: RoomViewModelDelegate?
-    
-    // Модель отеля, которую будет использовать представление
+
     private(set) var roomModel: RoomsModel? {
         didSet {
             delegate?.roomDataDidUpdate()
         }
     }
     
-    // Метод для получения данных из сети и обновления модели
     func fetchRoomData() {
         networkManager.fetchRoomData { [weak self] result in
             switch result {

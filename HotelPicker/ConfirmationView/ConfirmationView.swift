@@ -9,8 +9,7 @@ import UIKit
 
 final class ConfirmationViewController: UIViewController {
     
-    private var orderNumber = Int.random(in: 0...1000000)
-    
+    // MARK: - UI elements
     private let roundView = UIView()
     private let emojiLabel = UILabel()
     
@@ -20,7 +19,10 @@ final class ConfirmationViewController: UIViewController {
     private let buttonBackgroundView = UIView()
     private let button = CustomButton(text: "Супер!")
     
+    // MARK: - Property
     private let constants = Constants()
+    private var orderNumber = Int.random(in: 0...1000000)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -29,30 +31,12 @@ final class ConfirmationViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        let roundViewWidth: CGFloat = 94
-        let roundViewHeight: CGFloat = 94
-        let roundViewX = (view.bounds.width - roundViewWidth) / 2
-        let roundViewY = ((view.bounds.height - roundViewHeight) / 2) - 32
-        roundView.frame = CGRect(x: roundViewX, y: roundViewY, width: 94, height: 94)
-        
-        let emojiLabelSize = emojiLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        emojiLabel.frame = CGRect(x: 0, y: 0, width: emojiLabelSize.width, height: emojiLabelSize.height)
-        emojiLabel.center = CGPoint(x: roundView.bounds.midX, y: roundView.bounds.midY)
-        
-        let confirmLabelSize = confirmLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        confirmLabel.frame = CGRect(x: 0, y: roundView.frame.maxY + 32, width: confirmLabelSize.width, height: confirmLabelSize.height)
-        confirmLabel.center.x = view.center.x
-        
-        descriptionLabel.frame = CGRect(x: 0, y: confirmLabel.frame.maxY + 20, width: view.frame.width - 46, height: 120)
-        descriptionLabel.center.x = view.center.x
-        
-        
-        buttonBackgroundView.frame = CGRect(x: 0, y: view.frame.maxY - 88, width: view.frame.width, height: 88)
-        button.frame = CGRect(x: 0, y: 0, width: 343, height: 48)
-        button.center = CGPoint(x: buttonBackgroundView.bounds.midX, y: buttonBackgroundView.bounds.midY - 7)
+        setupLayout()
     }
-    
+}
+
+// MARK: - ConfirmationViewController setupUI
+extension ConfirmationViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
@@ -94,5 +78,32 @@ final class ConfirmationViewController: UIViewController {
         }
         buttonBackgroundView.addSubview(button)
     }
-    
+}
+
+// MARK: - ConfirmationViewController setupLayout
+extension ConfirmationViewController {
+    private func setupLayout() {
+        
+        let roundViewWidth: CGFloat = 94
+        let roundViewHeight: CGFloat = 94
+        let roundViewX = (view.bounds.width - roundViewWidth) / 2
+        let roundViewY = ((view.bounds.height - roundViewHeight) / 2) - 32
+        roundView.frame = CGRect(x: roundViewX, y: roundViewY, width: 94, height: 94)
+        
+        let emojiLabelSize = emojiLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        emojiLabel.frame = CGRect(x: 0, y: 0, width: emojiLabelSize.width, height: emojiLabelSize.height)
+        emojiLabel.center = CGPoint(x: roundView.bounds.midX, y: roundView.bounds.midY)
+        
+        let confirmLabelSize = confirmLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        confirmLabel.frame = CGRect(x: 0, y: roundView.frame.maxY + 32, width: confirmLabelSize.width, height: confirmLabelSize.height)
+        confirmLabel.center.x = view.center.x
+        
+        descriptionLabel.frame = CGRect(x: 0, y: confirmLabel.frame.maxY + 20, width: view.frame.width - 46, height: 120)
+        descriptionLabel.center.x = view.center.x
+        
+        
+        buttonBackgroundView.frame = CGRect(x: 0, y: view.frame.maxY - 88, width: view.frame.width, height: 88)
+        button.frame = CGRect(x: 0, y: 0, width: 343, height: 48)
+        button.center = CGPoint(x: buttonBackgroundView.bounds.midX, y: buttonBackgroundView.bounds.midY - 7)
+    }
 }

@@ -7,7 +7,6 @@
 
 import Foundation
 
-// Протокол для делегирования событий ViewModel
 protocol BookingViewModelDelegate: AnyObject {
     func bookingDataDidUpdate()
 }
@@ -16,7 +15,6 @@ protocol BookingViewModelDelegate: AnyObject {
 class BookingViewModel {
     private let networkManager = NetworkManager.shared
     
-    // Свойство для делегата, который будет уведомлен о событиях ViewModel
     weak var delegate: BookingViewModelDelegate?
 
     private(set) var bookingModel: BookingModel? {
@@ -25,7 +23,6 @@ class BookingViewModel {
         }
     }
     
-    // Метод для получения данных из сети и обновления модели
     func fetchBookingData() {
         networkManager.fetchBookingData { [weak self] result in
             switch result {

@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 enum CommonTextFieldType {
     case email
     case phoneNumber

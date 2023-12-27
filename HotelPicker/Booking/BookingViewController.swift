@@ -8,7 +8,6 @@
 import UIKit
 
 final class BookingViewController: UIViewController {
-    private let leftPadding: CGFloat = 16
     private let paddingForOrder: CGFloat = 156
     private let paddingForCost: CGFloat = 227
     
@@ -21,7 +20,6 @@ final class BookingViewController: UIViewController {
     private let starImage = UIImageView(image: UIImage(systemName: "star.fill"))
     private let hotelNameLabel = UILabel()
     private let hotelAddressLabel = UILabel()
-    
     private let whiteBackOrderInfo = UIView()
     private let departureCityLabel = UILabel()
     private let departureCityInfo = UILabel()
@@ -37,13 +35,11 @@ final class BookingViewController: UIViewController {
     private let roomInfo = UILabel()
     private let foodLabel = UILabel()
     private let foodInfo = UILabel()
-    
     private let whiteBackBuyerInfo = UIView()
     private let buyerInfoLabel = UILabel()
     private let phoneField = CommonTextField(placeholder: "+7 (***) ***-**-**", keyboardType: .numberPad, fieldType: .phoneNumber)
     private let emailField = CommonTextField(placeholder: "yourmail@email.com", keyboardType: .emailAddress, fieldType: .email)
     private let disclaimerLabel = UILabel()
-    
     private let paddings: CGFloat = 8
     private let whiteBackDataInfo = UIView()
     private let firstTouristLabel = UILabel()
@@ -51,12 +47,11 @@ final class BookingViewController: UIViewController {
     private let surnameTouristField = CommonTextField(placeholder: "Фамилия", keyboardType: .default, fieldType: .commonText)
     private let dateOfBirthField = CommonTextField(placeholder: "Дата рождения", keyboardType: .default, fieldType: .dateOfBirth)
     private let countryField = CommonTextField(placeholder: "Гражданство", keyboardType: .default, fieldType: .commonText)
-    private let passportNumberField = CommonTextField(placeholder: "Номер загранпаспорта", keyboardType: .default, fieldType: .commonText)
+    private let passportNumberField = CommonTextField(placeholder: "Номер загранпаспорта", keyboardType: .numberPad, fieldType: .commonText)
     private let passportDateField = CommonTextField(placeholder: "Срок действия загранпаспорта", keyboardType: .default, fieldType: .dateOfBirth)
     private let hideShowButton = UIButton()
     private var isDataInfoCollapsed = false
     private var textFields: [UITextField] = []
-    
     private let whiteBackMoneyInfo = UIView()
     private let tourLabel = UILabel()
     private let tourInfo = UILabel()
@@ -66,11 +61,10 @@ final class BookingViewController: UIViewController {
     private let serviceInfo = UILabel()
     private let toPayLabel = UILabel()
     private let toPayInfo = UILabel()
-    
     private let buttonBackgroundView = UIView()
     private let button = CustomButton(text: "Оплатить")
     
-    
+    // MARK: - Properties
     var viewModel = BookingViewModel()
     let constants = Constants()
     
@@ -313,11 +307,10 @@ final class BookingViewController: UIViewController {
         toPayInfo.numberOfLines = 0
         toPayInfo.textAlignment = .right
         toPayInfo.textColor = UIColor(red: 0.051, green: 0.447, blue: 1, alpha: 1)
-        toPayInfo.font = UIFont(name: "SFProDisplay-Semibold", size: 16)
+        toPayInfo.font = UIFont(name: constants.MediumFont, size: 16)
         whiteBackMoneyInfo.addSubview(toPayInfo)
         
         textFields = [nameTouristField, surnameTouristField, dateOfBirthField, countryField, passportNumberField, passportDateField]
-        
         
         // MARK: - Настройка bottomButton
         buttonBackgroundView.backgroundColor = .white
@@ -459,7 +452,7 @@ extension BookingViewController {
     private func setupLayout() {
         whiteBackHotelInfo.frame = CGRect(x: 0, y: 8, width: scrollView.frame.width, height: 150)
         let ratingValueLabelSize = ratingValueLabel.sizeThatFits(CGSize(width: 343, height: CGFloat.greatestFiniteMagnitude))
-        yellowView.frame = CGRect(x: leftPadding, y: whiteBackHotelInfo.frame.minY + 16, width: 0, height: 29)
+        yellowView.frame = CGRect(x: constants.leftPadding, y: whiteBackHotelInfo.frame.minY + 16, width: 0, height: 29)
         ratingValueLabel.frame = CGRect(x: 30, y: 0, width: ratingValueLabelSize.width, height: ratingValueLabelSize.height)
         starImage.frame = CGRect(x: 10, y: 0, width: 15, height: 15)
         starImage.center = CGPoint(x: 10 + starImage.frame.width / 2, y: yellowView.frame.height / 2)
@@ -467,45 +460,45 @@ extension BookingViewController {
         ratingValueLabel.center = CGPoint(x: (yellowView.frame.width + 2 + starImage.frame.width) / 2, y: yellowView.frame.height / 2)
         
         let hotelNameLabelSize = hotelNameLabel.sizeThatFits(CGSize(width: 343, height: CGFloat.greatestFiniteMagnitude))
-        hotelNameLabel.frame = CGRect(x: leftPadding, y: yellowView.frame.maxY + 8, width: hotelNameLabelSize.width, height: hotelNameLabelSize.height)
+        hotelNameLabel.frame = CGRect(x: constants.leftPadding, y: yellowView.frame.maxY + 8, width: hotelNameLabelSize.width, height: hotelNameLabelSize.height)
         let hotelAddressLabelSize = hotelAddressLabel.sizeThatFits(CGSize(width: 343, height: CGFloat.greatestFiniteMagnitude))
-        hotelAddressLabel.frame = CGRect(x: leftPadding, y: hotelNameLabel.frame.maxY + 8, width: hotelAddressLabelSize.width, height: hotelAddressLabelSize.height)
+        hotelAddressLabel.frame = CGRect(x: constants.leftPadding, y: hotelNameLabel.frame.maxY + 8, width: hotelAddressLabelSize.width, height: hotelAddressLabelSize.height)
         whiteBackHotelInfo.frame.size.height = calculateWhiteBackHotelInfoHeight()
         
         
         whiteBackOrderInfo.frame = CGRect(x: 0, y: whiteBackHotelInfo.frame.maxY + 8, width: scrollView.frame.width, height: 400)
         let departureCityLabelSize = departureCityLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        departureCityLabel.frame = CGRect(x: leftPadding, y: 16, width: departureCityLabelSize.width, height: departureCityLabelSize.height)
+        departureCityLabel.frame = CGRect(x: constants.leftPadding, y: 16, width: departureCityLabelSize.width, height: departureCityLabelSize.height)
         
         departureCityInfo.frame = CGRect(x: whiteBackOrderInfo.frame.minX + paddingForOrder, y: 16, width: 203, height: 19)
         
         let arrivalCityLabelSize = arrivalCityLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        arrivalCityLabel.frame = CGRect(x: leftPadding, y: departureCityLabel.frame.maxY + 16, width: arrivalCityLabelSize.width, height: arrivalCityLabelSize.height)
+        arrivalCityLabel.frame = CGRect(x: constants.leftPadding, y: departureCityLabel.frame.maxY + 16, width: arrivalCityLabelSize.width, height: arrivalCityLabelSize.height)
         
         arrivalCityInfo.frame = CGRect(x: whiteBackOrderInfo.frame.minX + paddingForOrder, y: departureCityInfo.frame.maxY + 16, width: 203, height: 19)
         
         let dateLabelSize = dateLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        dateLabel.frame = CGRect(x: leftPadding, y: arrivalCityLabel.frame.maxY + 16, width: dateLabelSize.width, height: dateLabelSize.height)
+        dateLabel.frame = CGRect(x: constants.leftPadding, y: arrivalCityLabel.frame.maxY + 16, width: dateLabelSize.width, height: dateLabelSize.height)
         
         dateInfo.frame = CGRect(x: whiteBackOrderInfo.frame.minX + paddingForOrder, y: arrivalCityInfo.frame.maxY + 16, width: 203, height: 19)
         
         let nightsLabelSize = nightsLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        nightsLabel.frame = CGRect(x: leftPadding, y: dateLabel.frame.maxY + 16, width: nightsLabelSize.width, height: nightsLabelSize.height)
+        nightsLabel.frame = CGRect(x: constants.leftPadding, y: dateLabel.frame.maxY + 16, width: nightsLabelSize.width, height: nightsLabelSize.height)
         
         nightsInfo.frame = CGRect(x: whiteBackOrderInfo.frame.minX + paddingForOrder, y: dateInfo.frame.maxY + 16, width: 203, height: 19)
         
         let hotelLabelSize = hotelLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        hotelLabel.frame = CGRect(x: leftPadding, y: nightsLabel.frame.maxY + 16, width: hotelLabelSize.width, height: hotelLabelSize.height)
+        hotelLabel.frame = CGRect(x: constants.leftPadding, y: nightsLabel.frame.maxY + 16, width: hotelLabelSize.width, height: hotelLabelSize.height)
         
         hotelInfo.frame = CGRect(x: whiteBackOrderInfo.frame.minX + paddingForOrder, y: nightsInfo.frame.maxY + 16, width: 203, height: 40)
         
         let roomLabelSize = roomLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        roomLabel.frame = CGRect(x: leftPadding, y: hotelInfo.frame.maxY + 16, width: roomLabelSize.width, height: roomLabelSize.height)
+        roomLabel.frame = CGRect(x: constants.leftPadding, y: hotelInfo.frame.maxY + 16, width: roomLabelSize.width, height: roomLabelSize.height)
         
         roomInfo.frame = CGRect(x: whiteBackOrderInfo.frame.minX + paddingForOrder, y: hotelInfo.frame.maxY + 16, width: 203, height: 40)
         
         let foodLabelSize = foodLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        foodLabel.frame = CGRect(x: leftPadding, y: roomInfo.frame.maxY + 16, width: foodLabelSize.width, height: foodLabelSize.height)
+        foodLabel.frame = CGRect(x: constants.leftPadding, y: roomInfo.frame.maxY + 16, width: foodLabelSize.width, height: foodLabelSize.height)
         
         let foodInfoSize = foodInfo.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         foodInfo.frame = CGRect(x: whiteBackOrderInfo.frame.minX + paddingForOrder, y: roomInfo.frame.maxY + 16, width: 203, height: foodInfoSize.height)
@@ -513,15 +506,15 @@ extension BookingViewController {
         
         whiteBackBuyerInfo.frame = CGRect(x: 0, y: whiteBackOrderInfo.frame.maxY + 8, width: scrollView.frame.width, height: 400)
         let buyerInfoLabelSize = buyerInfoLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        buyerInfoLabel.frame = CGRect(x: leftPadding, y: leftPadding, width: buyerInfoLabelSize.width, height: buyerInfoLabelSize.height)
-        phoneField.frame = CGRect(x: leftPadding, y: buyerInfoLabel.frame.maxY + 20, width: whiteBackBuyerInfo.frame.width - 32, height: 52)
-        emailField.frame = CGRect(x: leftPadding, y: phoneField.frame.maxY + 8, width: whiteBackBuyerInfo.frame.width - 32, height: 52)
-        disclaimerLabel.frame = CGRect(x: leftPadding, y: emailField.frame.maxY + 8, width: 343, height: 34)
+        buyerInfoLabel.frame = CGRect(x: constants.leftPadding, y: constants.leftPadding, width: buyerInfoLabelSize.width, height: buyerInfoLabelSize.height)
+        phoneField.frame = CGRect(x: constants.leftPadding, y: buyerInfoLabel.frame.maxY + 20, width: whiteBackBuyerInfo.frame.width - 32, height: 52)
+        emailField.frame = CGRect(x: constants.leftPadding, y: phoneField.frame.maxY + 8, width: whiteBackBuyerInfo.frame.width - 32, height: 52)
+        disclaimerLabel.frame = CGRect(x: constants.leftPadding, y: emailField.frame.maxY + 8, width: 343, height: 34)
         whiteBackBuyerInfo.frame.size.height = calculateWhiteBackBuyerInfoHeight()
         
         whiteBackDataInfo.frame = CGRect(x: 0, y: whiteBackBuyerInfo.frame.maxY + 8, width: scrollView.frame.width, height: 400)
         let firstTouristLabelSize = buyerInfoLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        firstTouristLabel.frame = CGRect(x: leftPadding, y: leftPadding, width: firstTouristLabelSize.width, height: firstTouristLabelSize.height)
+        firstTouristLabel.frame = CGRect(x: constants.leftPadding, y: constants.leftPadding, width: firstTouristLabelSize.width, height: firstTouristLabelSize.height)
         nameTouristField.frame = CGRect(x: 16, y: firstTouristLabel.frame.maxY + 20, width: whiteBackDataInfo.frame.width - 32, height: 52)
         surnameTouristField.frame = CGRect(x: 16, y: nameTouristField.frame.maxY + paddings, width: whiteBackDataInfo.frame.width - 32, height: 52)
         dateOfBirthField.frame = CGRect(x: 16, y: surnameTouristField.frame.maxY + paddings, width: whiteBackDataInfo.frame.width - 32, height: 52)
@@ -533,38 +526,47 @@ extension BookingViewController {
         whiteBackDataInfo.frame.size.height = isDataInfoCollapsed ? firstTouristLabelSize.height + 32 : calculatewhiteBackDataInfoHeight()
         
         
-        whiteBackMoneyInfo.frame = CGRect(x: 0, y: whiteBackDataInfo.frame.maxY + 8, width: scrollView.frame.width, height: 400)
+        whiteBackMoneyInfo.frame = CGRect(x: 0, y: whiteBackDataInfo.frame.maxY + constants.commonPadding, width: scrollView.frame.width, height: 400)
         let tourLabelSize = tourLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        tourLabel.frame = CGRect(x: leftPadding, y: 16, width: tourLabelSize.width, height: tourLabelSize.height)
+        tourLabel.frame = CGRect(x: constants.leftPadding, y: 16, 
+                                 width: tourLabelSize.width, height: tourLabelSize.height)
         
         let tourInfoSize = tourInfo.sizeThatFits(CGSize(width: 132, height: CGFloat.greatestFiniteMagnitude))
-        tourInfo.frame = CGRect(x: whiteBackMoneyInfo.frame.minX + paddingForCost, y: 16, width: 132, height: tourInfoSize.height)
+        tourInfo.frame = CGRect(x: whiteBackMoneyInfo.frame.minX + paddingForCost, y: constants.commonPadding * 2, 
+                                width: 132, height: tourInfoSize.height)
         
         let fuelLabelSize = fuelLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        fuelLabel.frame = CGRect(x: leftPadding, y: tourLabel.frame.maxY + 16, width: fuelLabelSize.width, height: fuelLabelSize.height)
+        fuelLabel.frame = CGRect(x: constants.leftPadding, y: tourLabel.frame.maxY + constants.commonPadding * 2, 
+                                 width: fuelLabelSize.width, height: fuelLabelSize.height)
         
         let fuelInfoSize = fuelInfo.sizeThatFits(CGSize(width: 132, height: CGFloat.greatestFiniteMagnitude))
-        fuelInfo.frame = CGRect(x: whiteBackMoneyInfo.frame.minX + paddingForCost, y: tourInfo.frame.maxY + 16, width: 132, height: fuelInfoSize.height)
+        fuelInfo.frame = CGRect(x: whiteBackMoneyInfo.frame.minX + paddingForCost, y: tourInfo.frame.maxY + constants.commonPadding * 2, 
+                                width: 132, height: fuelInfoSize.height)
         
         let serviceLabelSize = serviceLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        serviceLabel.frame = CGRect(x: leftPadding, y: fuelLabel.frame.maxY + 16, width: serviceLabelSize.width, height: serviceLabelSize.height)
+        serviceLabel.frame = CGRect(x: constants.leftPadding, y: fuelLabel.frame.maxY + constants.commonPadding * 2,
+                                    width: serviceLabelSize.width, height: serviceLabelSize.height)
         
         let serviceInfoSize = serviceInfo.sizeThatFits(CGSize(width: 132, height: CGFloat.greatestFiniteMagnitude))
-        serviceInfo.frame = CGRect(x: whiteBackMoneyInfo.frame.minX + paddingForCost, y: fuelInfo.frame.maxY + 16, width: 132, height: serviceInfoSize.height)
+        serviceInfo.frame = CGRect(x: whiteBackMoneyInfo.frame.minX + paddingForCost, y: fuelInfo.frame.maxY + constants.commonPadding * 2,
+                                   width: 132, height: serviceInfoSize.height)
         
         let toPayLabelSize = toPayLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        toPayLabel.frame = CGRect(x: leftPadding, y: serviceLabel.frame.maxY + 16, width: toPayLabelSize.width, height: toPayLabelSize.height)
+        toPayLabel.frame = CGRect(x: constants.leftPadding, y: serviceLabel.frame.maxY + constants.commonPadding * 2,
+                                  width: toPayLabelSize.width, height: toPayLabelSize.height)
         
         let toPayInfoSize = toPayInfo.sizeThatFits(CGSize(width: 132, height: CGFloat.greatestFiniteMagnitude))
-        toPayInfo.frame = CGRect(x: whiteBackMoneyInfo.frame.minX + paddingForCost, y: serviceInfo.frame.maxY + 16, width: 132, height: toPayInfoSize.height)
-        whiteBackMoneyInfo.frame = CGRect(x: 0, y: isDataInfoCollapsed ? whiteBackDataInfo.frame.maxY + 8 : whiteBackDataInfo.frame.maxY + 8, width: scrollView.frame.width, height: calculateWhiteBackMoneyInfoHeight())
+        toPayInfo.frame = CGRect(x: whiteBackMoneyInfo.frame.minX + paddingForCost, y: serviceInfo.frame.maxY + constants.commonPadding * 2,
+                                 width: 132, height: toPayInfoSize.height)
+        whiteBackMoneyInfo.frame = CGRect(x: 0, y: isDataInfoCollapsed ? whiteBackDataInfo.frame.maxY + constants.commonPadding : whiteBackDataInfo.frame.maxY + constants.commonPadding,
+                                          width: scrollView.frame.width, height: calculateWhiteBackMoneyInfoHeight())
         hideShowButton.setImage(isDataInfoCollapsed ? UIImage(systemName: "chevron.down") : UIImage(systemName: "chevron.up"), for: .normal)
         
         buttonBackgroundView.frame = CGRect(x: 0, y: view.frame.maxY - 88, width: view.frame.width, height: 88)
         button.frame = CGRect(x: 0, y: 0, width: 343, height: 48)
         button.center = CGPoint(x: buttonBackgroundView.bounds.midX, y: buttonBackgroundView.bounds.midY - 7)
         
-        scrollView.contentSize = CGSize(width: view.frame.width, height: whiteBackHotelInfo.frame.height + whiteBackOrderInfo.frame.height + whiteBackMoneyInfo.frame.height + whiteBackBuyerInfo.frame.height + whiteBackDataInfo.frame.height + buttonBackgroundView.frame.height + 8)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: whiteBackHotelInfo.frame.height + whiteBackOrderInfo.frame.height + whiteBackMoneyInfo.frame.height + whiteBackBuyerInfo.frame.height + whiteBackDataInfo.frame.height + buttonBackgroundView.frame.height + constants.commonPadding * 2)
 
     }
 }

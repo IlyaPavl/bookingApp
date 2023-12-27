@@ -38,7 +38,7 @@
 		C7B632FD2B337CF800CCDDFC /* HotelImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B632FC2B337CF800CCDDFC /* HotelImageCollectionViewCell.swift */; };
 		C7EFEC4D2B3AF6AA00F53422 /* CommonTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EFEC4C2B3AF6AA00F53422 /* CommonTextField.swift */; };
 		C7EFEC4F2B3AFF4A00F53422 /* Extension + Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EFEC4E2B3AFF4A00F53422 /* Extension + Int.swift */; };
-		C7EFEC512B3B31EA00F53422 /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EFEC502B3B31EA00F53422 /* String + Extension.swift */; };
+		C7EFEC512B3B31EA00F53422 /* Extension + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EFEC502B3B31EA00F53422 /* Extension + String.swift */; };
 		C7EFEC532B3B4E1000F53422 /* TouristViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EFEC522B3B4E1000F53422 /* TouristViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -76,7 +76,7 @@
 		C7B632FC2B337CF800CCDDFC /* HotelImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotelImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		C7EFEC4C2B3AF6AA00F53422 /* CommonTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
 		C7EFEC4E2B3AFF4A00F53422 /* Extension + Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Int.swift"; sourceTree = "<group>"; };
-		C7EFEC502B3B31EA00F53422 /* String + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
+		C7EFEC502B3B31EA00F53422 /* Extension + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + String.swift"; sourceTree = "<group>"; };
 		C7EFEC522B3B4E1000F53422 /* TouristViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouristViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +91,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C7229DC02B3C4CA600EC81D6 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				C73075A12B2F68BD009A1039 /* AppDelegate.swift */,
+				C73075A32B2F68BD009A1039 /* SceneDelegate.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		C7229DC12B3C4CC100EC81D6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C7EFEC4E2B3AFF4A00F53422 /* Extension + Int.swift */,
+				C7EFEC502B3B31EA00F53422 /* Extension + String.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		C73075952B2F68BD009A1039 = {
 			isa = PBXGroup;
 			children = (
@@ -119,8 +137,8 @@
 				C73075C42B30CAC2009A1039 /* Services */,
 				C73075C32B30CAB6009A1039 /* Protocols */,
 				C73075BC2B2F8670009A1039 /* Helpers */,
-				C73075A12B2F68BD009A1039 /* AppDelegate.swift */,
-				C73075A32B2F68BD009A1039 /* SceneDelegate.swift */,
+				C7229DC12B3C4CC100EC81D6 /* Extensions */,
+				C7229DC02B3C4CA600EC81D6 /* System */,
 				C73075AC2B2F68BD009A1039 /* LaunchScreen.storyboard */,
 				C73075AA2B2F68BD009A1039 /* Assets.xcassets */,
 				C73075AF2B2F68BD009A1039 /* Info.plist */,
@@ -145,8 +163,6 @@
 				C7B03EB32B35A8EA006FBB1D /* Constants.swift */,
 				C73075BA2B2F866B009A1039 /* APIURL.swift */,
 				C73075BD2B2F87F9009A1039 /* APIError.swift */,
-				C7EFEC4E2B3AFF4A00F53422 /* Extension + Int.swift */,
-				C7EFEC502B3B31EA00F53422 /* String + Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -333,7 +349,7 @@
 				C7B03EF52B388D50006FBB1D /* RoomTableViewCell.swift in Sources */,
 				C73075A42B2F68BD009A1039 /* SceneDelegate.swift in Sources */,
 				C73075BE2B2F87F9009A1039 /* APIError.swift in Sources */,
-				C7EFEC512B3B31EA00F53422 /* String + Extension.swift in Sources */,
+				C7EFEC512B3B31EA00F53422 /* Extension + String.swift in Sources */,
 				C73075C62B30CB48009A1039 /* BookingModel.swift in Sources */,
 				C7B632F82B32311200CCDDFC /* BookingViewController.swift in Sources */,
 				C7B632F12B321B4400CCDDFC /* HotelViewModel.swift in Sources */,
@@ -485,8 +501,8 @@
 				INFOPLIST_FILE = HotelPicker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -516,8 +532,8 @@
 				INFOPLIST_FILE = HotelPicker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

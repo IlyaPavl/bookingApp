@@ -56,6 +56,3 @@ class TagCloudView: UIView {
         frame.size.height = currentY + tagHeight
     }
 }
-
-
-

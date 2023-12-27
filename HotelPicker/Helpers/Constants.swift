@@ -11,5 +11,8 @@ struct Constants {
     let MediumFont = "SFProDisplay-Medium"
     let SemiboldFont = "SFProDisplay-Semibold"
     let RegularFont = "SFProDisplay-Regular"
+    
+    let leftPadding: CGFloat = 16
+    let commonPadding: CGFloat = 8
 
 }

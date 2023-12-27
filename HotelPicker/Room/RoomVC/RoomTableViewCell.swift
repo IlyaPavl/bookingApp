@@ -12,31 +12,24 @@ protocol RoomTableViewCellDelegate: AnyObject {
 }
 
 class RoomTableViewCell: UITableViewCell {
-    
     static let identifier = "RoomCell"
     
-    private let leftPadding: CGFloat = 16
+    private let constants = Constants()
     
     private var collectionView: UICollectionView!
-    private let pageControl = UIPageControl()
+    private var pageControl = UIPageControl()
     private let roomNameLabel = UILabel()
-
     private let blueView = UIView()
     private let moreInfoLabel = UILabel()
     private let chevronImage = UIImageView(image: UIImage(systemName: "chevron.forward"))
     private var tagCloudView = TagCloudView()
-
     private let minPriceLabel = UILabel()
     private let priceDecriptionLabel = UILabel()
-    
     private let button = CustomButton(text: "Выбрать номер")
     
     var room : [Room] = [] {
-        didSet {
-            self.collectionView.reloadData()
-        }
+        didSet { self.collectionView.reloadData() }
     }
-    private let constants = Constants()
     
     weak var delegate: RoomTableViewCellDelegate?
     
@@ -54,33 +47,10 @@ class RoomTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        let roomNameLabelSize = roomNameLabel.sizeThatFits(CGSize(width: 343, height: CGFloat.greatestFiniteMagnitude))
-        roomNameLabel.frame = CGRect(x: leftPadding, y: collectionView.frame.maxY + 8, width: 343, height: roomNameLabelSize.height)
-        
-        let tagCloudViewSize = tagCloudView.sizeThatFits(CGSize(width: 295, height: CGFloat.greatestFiniteMagnitude))
-        tagCloudView.frame = CGRect(x: leftPadding, y: roomNameLabel.frame.maxY + 8, width: 295, height: tagCloudViewSize.height)
-        
-        let moreInfoLabelSize = moreInfoLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        blueView.frame = CGRect(x: leftPadding, y: tagCloudView.frame.maxY + 13, width: moreInfoLabelSize.width, height: 29)
-        moreInfoLabel.frame = CGRect(x: 10, y: (blueView.frame.height - moreInfoLabelSize.height) / 2, width: moreInfoLabelSize.width, height: moreInfoLabelSize.height)
-        chevronImage.frame = CGRect(x: moreInfoLabel.frame.maxX + 2, y: (blueView.frame.height - 15) / 2, width: 15, height: 15)
-        blueView.frame.size.width = moreInfoLabel.frame.width + chevronImage.frame.width + 20 + 2
-        
-        let minPriceLabelSize = minPriceLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        minPriceLabel.frame = CGRect(x: leftPadding, y: blueView.frame.maxY + 16, width: minPriceLabelSize.width, height: minPriceLabelSize.height)
-        
-        let priceDecriptionLabelSize = priceDecriptionLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        priceDecriptionLabel.frame = CGRect(x: minPriceLabel.frame.maxX + 8, y: blueView.frame.maxY + 30, width: priceDecriptionLabelSize.width, height: priceDecriptionLabelSize.height)
-        
-        button.frame = CGRect(x: 16, y: priceDecriptionLabel.frame.maxY + 19, width: self.bounds.width - 32, height: 48)
-        collectionView.frame.size.width = self.bounds.width - 32
-        pageControl.center = CGPoint(x: collectionView.bounds.midX, y: collectionView.frame.maxY - 13)
-
+        setupLayout()
     }
     
     func configureCell(imageUrls: [String], roomName: String, tagCloud: [String], minPrice: String, priceDescription: String) {
-    
         configureCollectionView(with: [imageUrls])
         self.roomNameLabel.text = roomName
         self.tagCloudView.tags = tagCloud
@@ -88,13 +58,54 @@ class RoomTableViewCell: UITableViewCell {
         self.priceDecriptionLabel.text = priceDescription
         collectionView.reloadData()
     }
+    
+    private func configureCollectionView(with urls: [[String]]) {
+        collectionView.reloadData()
+    }
+}
 
+extension RoomTableViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // MARK: - UICollectionViewDataSource
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        pageControl.numberOfPages = room.count
+        return room.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RoomImageCollectionViewCell.reuseIdentifier, for: indexPath) as? RoomImageCollectionViewCell else {
+            fatalError("Unable to dequeue ImageCollectionViewCell")
+        }
+
+        let room = self.room[indexPath.item]
+        cell.loadImages(from: room.imageUrls)
+
+        return cell
+    }
+
+    // MARK: - UICollectionViewDelegateFlowLayout
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionView.frame.size
+    }
+
+    // MARK: - UIScrollViewDelegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.bounds.width
+        guard pageWidth > 0 else { return }
+        
+        let currentPage = Int((scrollView.contentOffset.x + 0.5 * pageWidth) / pageWidth)
+        pageControl.currentPage = currentPage
+    }
+}
+
+// MARK: - RoomTableViewCell setup UI
+extension RoomTableViewCell {
     private func setupUI() {
         // MARK: - Настройка UICollectionView
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
-        collectionView = UICollectionView(frame: CGRect(x: leftPadding, y: 16, width: 0, height: 257), collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: CGRect(x: constants.leftPadding, y: constants.leftPadding, width: 0, height: 257), collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.isPagingEnabled = true
@@ -104,29 +115,22 @@ class RoomTableViewCell: UITableViewCell {
         contentView.addSubview(collectionView)
         collectionView.register(RoomImageCollectionViewCell.self, forCellWithReuseIdentifier: RoomImageCollectionViewCell.reuseIdentifier)
         
-        // MARK: - Настройка UIPageControl
-        pageControl.pageIndicatorTintColor = UIColor.lightGray
-        pageControl.currentPageIndicatorTintColor = UIColor.black
+        // MARK: - Настройка pageControl
+        pageControl.pageIndicatorTintColor = .lightGray
+        pageControl.currentPageIndicatorTintColor = .black
         pageControl.backgroundColor = .white
-        pageControl.numberOfPages = 0
-        collectionView.addSubview(pageControl)
+        pageControl.alpha = 0.8
+        pageControl.layer.cornerRadius = 10
+        contentView.addSubview(pageControl)
         
         // MARK: - Настройка roomName
         roomNameLabel.numberOfLines = 0
         roomNameLabel.font = UIFont(name: constants.MediumFont, size: 22)
-        roomNameLabel.backgroundColor = .white
         contentView.addSubview(roomNameLabel)
         
         // MARK: - Настройка tagCloudView
         contentView.addSubview(tagCloudView)
 
-        // MARK: - Настройка UIPageControl
-        pageControl.pageIndicatorTintColor = UIColor.lightGray
-        pageControl.currentPageIndicatorTintColor = UIColor.black
-        pageControl.backgroundColor = .white
-        pageControl.numberOfPages = 0
-        pageControl.center = CGPoint(x: self.frame.width / 2, y: collectionView.frame.maxY - 13)
-        contentView.addSubview(pageControl)
         
         // MARK: - Настройка MoreTab
         blueView.backgroundColor = UIColor(red: 0.051, green: 0.447, blue: 1, alpha: 0.1)
@@ -155,46 +159,48 @@ class RoomTableViewCell: UITableViewCell {
             self.delegate?.didSelectRoom()
         }
         contentView.addSubview(button)
-
-    }
-    
-    private func configureCollectionView(with urls: [[String]]) {
-        pageControl.numberOfPages = urls.count
-        pageControl.currentPage = 0
-        collectionView.reloadData()
     }
 }
 
-extension RoomTableViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    // MARK: - UICollectionViewDataSource
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+// MARK: - RoomTableViewCell setupLayout
+extension RoomTableViewCell {
+    private func setupLayout() {
+        let roomNameLabelSize = roomNameLabel.sizeThatFits(CGSize(width: 343, height: CGFloat.greatestFiniteMagnitude))
+        roomNameLabel.frame = CGRect(x: constants.leftPadding, y: collectionView.frame.maxY + constants.leftPadding,
+                                     width: 343, height: roomNameLabelSize.height)
         
-        return room.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RoomImageCollectionViewCell.reuseIdentifier, for: indexPath) as? RoomImageCollectionViewCell else {
-            fatalError("Unable to dequeue ImageCollectionViewCell")
-        }
-
-        let room = self.room[indexPath.item]
-        cell.loadImages(from: room.imageUrls)
-
-        return cell
-    }
-
-    // MARK: - UICollectionViewDelegateFlowLayout
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.frame.size
-    }
-
-    // MARK: - UIScrollViewDelegate
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageWidth = scrollView.bounds.width
-        guard pageWidth > 0 else { return}
+        let tagCloudViewSize = tagCloudView.sizeThatFits(CGSize(width: 295, height: CGFloat.greatestFiniteMagnitude))
+        tagCloudView.frame = CGRect(x: constants.leftPadding, y: roomNameLabel.frame.maxY + constants.leftPadding,
+                                    width: 295, height: tagCloudViewSize.height)
         
-        let currentPage = Int((scrollView.contentOffset.x + 0.5 * pageWidth) / pageWidth)
-        pageControl.currentPage = currentPage
+        let moreInfoLabelSize = moreInfoLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        blueView.frame = CGRect(x: constants.leftPadding, y: tagCloudView.frame.maxY + 13,
+                                width: moreInfoLabelSize.width, height: 29)
+        moreInfoLabel.frame = CGRect(x: 10, y: (blueView.frame.height - moreInfoLabelSize.height) / 2, 
+                                     width: moreInfoLabelSize.width, height: moreInfoLabelSize.height)
+        chevronImage.frame = CGRect(x: moreInfoLabel.frame.maxX + 2, y: (blueView.frame.height - 15) / 2, 
+                                    width: 15, height: 15)
+        blueView.frame.size.width = moreInfoLabel.frame.width + chevronImage.frame.width + 20 + 2
+        
+        let minPriceLabelSize = minPriceLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        minPriceLabel.frame = CGRect(x: constants.leftPadding, y: blueView.frame.maxY + constants.leftPadding,
+                                     width: minPriceLabelSize.width, height: minPriceLabelSize.height)
+        
+        let priceDecriptionLabelSize = priceDecriptionLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        priceDecriptionLabel.frame = CGRect(x: minPriceLabel.frame.maxX + constants.commonPadding, y: blueView.frame.maxY + 30,
+                                            width: priceDecriptionLabelSize.width, height: priceDecriptionLabelSize.height)
+        
+        button.frame = CGRect(x: 16, y: priceDecriptionLabel.frame.maxY + 19, 
+                              width: self.bounds.width - 32, height: 48)
+        collectionView.frame.size.width = self.bounds.width - 32
+        
+        let pageControlSize = pageControl.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: 15))
+        pageControl.frame = CGRect(x: collectionView.center.x - pageControlSize.width / 2, y: collectionView.frame.maxY - 25, width: pageControlSize.width, height: 20)
     }
+    
+    func calculateCellHeight() -> CGFloat {
+        
+        return 330 + roomNameLabel.frame.height + tagCloudView.frame.height + moreInfoLabel.frame.height + blueView.frame.height + minPriceLabel.frame.height + button.frame.height + constants.leftPadding * 9
+    }
+    
 }
