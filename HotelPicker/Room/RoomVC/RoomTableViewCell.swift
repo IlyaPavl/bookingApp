@@ -76,10 +76,20 @@ extension RoomTableViewCell: UICollectionViewDataSource, UICollectionViewDelegat
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RoomImageCollectionViewCell.reuseIdentifier, for: indexPath) as? RoomImageCollectionViewCell else {
             fatalError("Unable to dequeue ImageCollectionViewCell")
         }
-
+        
         let room = self.room[indexPath.item]
-        cell.loadImages(from: room.imageUrls)
-
+        NetworkManager.shared.loadRoomImages(from: room.imageUrls) { result in
+            switch result {
+            case .success(let images):
+                if let image = images.first {
+                    DispatchQueue.main.async {
+                        cell.configure(with: image)
+                    }
+                }
+            case .failure(let error):
+                print("Ошибка загрузки изображений: \(error)")
+            }
+        }
         return cell
     }
 
@@ -119,8 +129,7 @@ extension RoomTableViewCell {
         pageControl.pageIndicatorTintColor = .lightGray
         pageControl.currentPageIndicatorTintColor = .black
         pageControl.backgroundColor = .white
-        pageControl.alpha = 0.8
-        pageControl.layer.cornerRadius = 10
+        pageControl.layer.cornerRadius = 5
         contentView.addSubview(pageControl)
         
         // MARK: - Настройка roomName

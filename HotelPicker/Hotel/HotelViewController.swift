@@ -29,12 +29,6 @@ final class HotelViewController: UIViewController {
     private let aboutHotelDescriptionLabel = UILabel()
     private let advantage = AdvantageTableVC()
     private let whiteBackgroundBottom = UIView()
-    private let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.color = .gray
-        indicator.hidesWhenStopped = true
-        return indicator
-    }()
     private let buttonBackgroundView = UIView()
     private let button = CustomButton(text: "К выбору номера")
     
@@ -114,9 +108,21 @@ extension HotelViewController: UICollectionViewDataSource, UICollectionViewDeleg
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotelImageCollectionViewCell.reuseIdentifier, for: indexPath) as? HotelImageCollectionViewCell else {
             fatalError("Unable to dequeue ImageCollectionViewCell")
         }
-        if let imageUrl = viewModel.hotelModel?.imageUrls[indexPath.item] {
-            cell.loadImage(from: imageUrl)
+        
+        if let imageUrlString = viewModel.hotelModel?.imageUrls[indexPath.item] {
+            NetworkManager.shared.loadHotelImages(from: imageUrlString) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        cell.imageView.image = image
+                        cell.activityIndicator.stopAnimating()
+                    }
+                case .failure(let error):
+                    print("Ошибка загрузки изображения: \(error.localizedDescription)")
+                }
+            }
         }
+        
         return cell
     }
     
@@ -167,8 +173,7 @@ extension HotelViewController {
         pageControl.pageIndicatorTintColor = .lightGray
         pageControl.currentPageIndicatorTintColor = .black
         pageControl.backgroundColor = .white
-        pageControl.alpha = 0.8
-        pageControl.layer.cornerRadius = 10
+        pageControl.layer.cornerRadius = 5
         whiteBackgroundTop.addSubview(pageControl)
         
         // MARK: - Настройка ScoreTab
@@ -231,13 +236,15 @@ extension HotelViewController {
         buttonBackgroundView.backgroundColor = .white
         view.addSubview(buttonBackgroundView)
         
-        view.addSubview(activityIndicator)
-        activityIndicator.center = view.center
-        
         button.addAction { [weak self] in
             guard let self = self else { return }
             let roomViewController = RoomViewController()
-            roomViewController.title = self.hotelNameLabel.text
+            let navTitle = UILabel()
+            navTitle.text = self.hotelNameLabel.text
+            navTitle.adjustsFontSizeToFitWidth = true
+            navTitle.minimumScaleFactor = 0.5
+            navTitle.font = UIFont(name: constants.MediumFont, size: 18)
+            roomViewController.navigationItem.titleView = navTitle
             
             self.navigationController?.pushViewController(roomViewController, animated: true)
         }
@@ -302,8 +309,8 @@ extension HotelViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, 
                                         height: whiteBackgroundTop.frame.height + whiteBackgroundBottom.frame.height + buttonBackgroundView.frame.height)
         
-        let pageControlSize = pageControl.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: 15))
-        pageControl.frame = CGRect(x: collectionView.center.x - pageControlSize.width / 2, y: collectionView.frame.maxY - 25, width: pageControlSize.width, height: 20)
+        let pageControlSize = pageControl.sizeThatFits(CGSize(width: 75, height: 15))
+        pageControl.frame = CGRect(x: collectionView.center.x - pageControlSize.width / 2, y: collectionView.frame.maxY - 25, width: pageControlSize.width, height: 17)
     }
     
     private func calculateWhiteBackgroundBottomHeight() -> CGFloat {

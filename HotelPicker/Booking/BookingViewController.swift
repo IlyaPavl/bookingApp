@@ -72,6 +72,7 @@ final class BookingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        hideKeyboardOnTap()
         
         viewModel.fetchBookingData()
         viewModel.delegate = self
@@ -441,10 +442,18 @@ extension BookingViewController: BookingViewModelDelegate {
     }
 }
 
-// MARK: - setupUI
-
+// MARK: - keyboard setup
 extension BookingViewController {
+    func hideKeyboardOnTap(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissMyKeyboard))
+        view.addGestureRecognizer(tap)
+    }
     
+    @objc func dismissMyKeyboard(){
+        view.endEditing(true)
+    }
 }
 
 // MARK: - setupLayout

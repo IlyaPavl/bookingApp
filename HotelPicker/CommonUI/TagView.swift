@@ -39,7 +39,6 @@ class TagCloudView: UIView {
             let tagWidth = tagLabel.intrinsicContentSize.width + 16
 
             if currentX + tagWidth > bounds.width {
-                // Move to the next line
                 currentX = 0
                 currentY += tagHeight + spacing
             }
